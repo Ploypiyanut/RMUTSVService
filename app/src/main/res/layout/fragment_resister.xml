@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:="@+id/toolberRegister">
+        android:id="@+id/toolberRegister">
 
         <!--Icon Save-->
         <ImageView
@@ -70,9 +70,10 @@
                 android:layout_height="wrap_content" />
             <!--<Saleser-->
             <RadioButton
-                android:text="saleser"
+                android:text="salos"
                 android:layout_width="wrap_content"
-                android:layout_hidth="wrap_content"
+                android:layout_height="wrap_content" />
+
         </RadioGroup>
 
 

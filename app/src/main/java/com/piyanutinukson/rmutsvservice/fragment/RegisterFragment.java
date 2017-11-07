@@ -13,7 +13,7 @@ import com.piyanutinukson.rmutsvservice.R;
  * Created by lenovo on 7/11/2560.
  */
 
-public class RegisterFragment extends Fragment{
+public class RegisterFragment extends android.support.v4.app.Fragment{
 
         @Nullable
         @Override
