@@ -40,7 +40,8 @@ public class MainFragment extends Fragment{
 
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.contentFragmentMain, new RegisterFragment())
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null)
+                        .commit();
 
 
                 // onClick
