@@ -3,17 +3,21 @@ package com.piyanutinukson.rmutsvservice.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.piyanutinukson.rmutsvservice.MainActivity;
 import com.piyanutinukson.rmutsvservice.R;
 import com.piyanutinukson.rmutsvservice.utillity.MyAlert;
+import com.piyanutinukson.rmutsvservice.utillity.Myconstant;
+import com.piyanutinukson.rmutsvservice.utillity.UploadNewUser;
 
 /**
  * Created by lenovo on 7/11/2560.
@@ -85,19 +89,48 @@ public class RegisterFragment extends android.support.v4.app.Fragment {
                     MyAlert myAlert = new MyAlert(getActivity());
                     myAlert.myDialog("Have space",
                             "Please Fill All Every Blank");
-                } else if (aBoolean) {
+                } else //                    choosed choice
+                    if (aBoolean) {
 //                    Non choose choice
                     MyAlert myAlert = new MyAlert(getActivity());
                     myAlert.myDialog("Non Chose Category",
                             "Please Choose Category");
 
-                } else {
-//                    choosed choice
-                }
+                } else
+               //     Choosed Choice
+                    uploadUserToServer();
             }
 
             // onClick
         });
+    }
+
+    private void uploadUserToServer() {
+
+        String tag = "8novV1";
+        try {
+            Myconstant myconstant = new Myconstant();
+            UploadNewUser uploadNewUser = new UploadNewUser(getActivity());
+            uploadNewUser.execute(nameString,categoryString,userString,passwordString,myconstant.getUrlpostData());
+            String result = uploadNewUser.get();
+            Log.d(tag, "Result==>" + result);
+            if (Boolean.parseBoolean(result)) {
+            //    Success Upload
+                getActivity().getSupportFragmentManager().popBackStack();
+                Toast.makeText(getActivity(),
+                        "success UpDate User",Toast.LENGTH_SHORT).show();
+
+            }else {
+               // Error Upload
+               Toast.makeText(getActivity(),"cannot UpDate User",Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        }catch (Exception e){
+            Log.d(tag, "e==>" + e.toString());
+
+            }
     }
 
     private void toolbarController() {

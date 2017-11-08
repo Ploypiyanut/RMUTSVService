@@ -44,6 +44,7 @@
 
             <!--TextFfied-->
             <EditText
+                android:id="@+id/edtuser"
                 android:textColor="@color/colorPrimaryDark"
                 android:inputType="text"
                 android:hint="@string/user"
@@ -66,6 +67,8 @@
 
             <!--TextFfied-->
             <EditText
+
+                android:id="@+id/edtpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="password"
@@ -76,6 +79,7 @@
 
         <!--Login Button-->
         <Button
+            android:id="@+id/btnLogin"
             android:text="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
