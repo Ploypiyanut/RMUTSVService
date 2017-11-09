@@ -1,5 +1,6 @@
 package com.piyanutinukson.rmutsvservice.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Build;
@@ -10,11 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.piyanutinukson.rmutsvservice.MyServiceActivity;
 import com.piyanutinukson.rmutsvservice.R;
+import com.piyanutinukson.rmutsvservice.utillity.DeletData;
 import com.piyanutinukson.rmutsvservice.utillity.GetAllData;
 import com.piyanutinukson.rmutsvservice.utillity.ListViewAdpter;
 import com.piyanutinukson.rmutsvservice.utillity.Myconstant;
@@ -71,7 +75,7 @@ public class ServiceFragment extends android.support.v4.app.Fragment {
             Log.d("9novV1", "JSON==>" + resuIJSON);
             JSONArray jsonArray = new JSONArray(resuIJSON);
 
-            String[] nameString = new String[jsonArray.length()];
+            final String[] nameString = new String[jsonArray.length()];
             String[] catString = new String[jsonArray.length()];
             String[] userString = new String[jsonArray.length()];
             String[] passwordString = new String[jsonArray.length()];
@@ -88,16 +92,54 @@ public class ServiceFragment extends android.support.v4.app.Fragment {
             ListAdapter listAdapter = new ListViewAdpter(getActivity(),
                     nameString,catString,userString,passwordString);
             listView .setAdapter(listAdapter);
+            listView .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    confirmDialog(nameString[1]);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    deleteDatawhere(nameString);
+                    confirmDialog.dismiss();
 
 
-
-
+                }
+            });
 
 
 
         }catch (Exception e){
         e.printStackTrace();
 
+    }
+
+    private void deleteDatawhere(String[] nameString) {
+        try {
+            Myconstant myconstant = new Myconstant();
+            DeletData deletData = new DeletData(getActivity());
+            deletData.execute(nameString, myconstant.getUrlDeleteData());
+
+            if (Boolean.parseBoolean(getActivity().get())) {
+                Toast .makeText(getActivity(),"Delete Success",Toast .LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(getActivity(), "Delete Error", Toast.LENGTH_SHORT).show();
+            }
+                createListView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void confirmDialog(String s) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_action_alert);
+        builder.setTitle("you Choose" + nameString);
+        builder.setMessage("What do you want");
+        builder .setPositiveButton("D")
+
+    }
     }
 
     private void createToolbar(String setTile) {
