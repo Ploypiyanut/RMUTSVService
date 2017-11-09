@@ -10,9 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.piyanutinukson.rmutsvservice.MyServiceActivity;
 import com.piyanutinukson.rmutsvservice.R;
+import com.piyanutinukson.rmutsvservice.utillity.GetAllData;
+import com.piyanutinukson.rmutsvservice.utillity.ListViewAdpter;
+import com.piyanutinukson.rmutsvservice.utillity.Myconstant;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by lenovo on 9/11/2560.
@@ -41,6 +49,54 @@ public class ServiceFragment extends android.support.v4.app.Fragment {
 
         createToolbar(strings[1]);
 
+//        Creater ListView
+
+        createToolbar(strings[1]);
+
+//        Create ListView
+        createListView();
+
+
+    }
+
+    private void createListView() {
+        ListView listView = getView().findViewById(R.id.livUser);
+        Myconstant myconstant = new Myconstant();
+
+        try {
+
+            GetAllData getAllData = new GetAllData(getActivity());
+            getAllData .execute(myconstant.getUrlGetAllUser());
+            String resuIJSON = getAllData.get();
+            Log.d("9novV1", "JSON==>" + resuIJSON);
+            JSONArray jsonArray = new JSONArray(resuIJSON);
+
+            String[] nameString = new String[jsonArray.length()];
+            String[] catString = new String[jsonArray.length()];
+            String[] userString = new String[jsonArray.length()];
+            String[] passwordString = new String[jsonArray.length()];
+
+            for (int i=0; i<jsonArray.length();i+=1) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                nameString[i] = jsonObject.getString("Name");
+                catString[i] = jsonObject.getString("Category");
+                userString[i] = jsonObject.getString("User");
+                passwordString[i] = jsonObject.getString("Password");
+
+            }  // for
+            ListAdapter listAdapter = new ListViewAdpter(getActivity(),
+                    nameString,catString,userString,passwordString);
+            listView .setAdapter(listAdapter);
+
+
+
+
+
+
+
+        }catch (Exception e){
+        e.printStackTrace();
 
     }
 
